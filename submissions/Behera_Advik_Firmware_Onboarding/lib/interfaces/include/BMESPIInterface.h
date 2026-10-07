@@ -2,7 +2,6 @@
 #include <Adafruit_BME280.h>
 #include "BMEConstants.h"
 
-
 class BMESPIInterface {
 public:
     BMESPIInterface(uint8_t csPin);

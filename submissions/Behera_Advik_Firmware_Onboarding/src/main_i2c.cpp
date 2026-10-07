@@ -1,18 +1,22 @@
 #include <Arduino.h>
+#include "BMEI2CInterface.h"
+#include "LEDController.h"
 
-// put function declarations here:
-int myFunction(int, int);
+BMEI2CInterface bmeSensor;
+LEDController led(LED_BUILTIN);
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+    Serial.begin(115200);
+    led.init();
+    
+    if (!bmeSensor.init()) {
+        Serial.println("Could not find a valid BME280 sensor over I2C!");
+    }
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+    float temp = bmeSensor.readTemperature();
+    led.update(temp);
+    Serial.println(temp);
+    delay(10);
 }

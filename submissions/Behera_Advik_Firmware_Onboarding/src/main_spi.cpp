@@ -1,7 +1,7 @@
 #include <Arduino.h>
+#include "BMEConstants.h"
 #include "BMESPIInterface.h"
 #include "LEDController.h"
-#include "BMEConstants.h"
 
 BMESPIInterface bmeSensor(BMEConstants::CS_PIN);
 LEDController led(LED_BUILTIN);

@@ -10,9 +10,12 @@ void LEDController::init() {
 }
 
 void LEDController::update(float currentTemp) {
-    unsigned long interval = (currentTemp > BMEConstants::TEMP_THRESHOLD) ? 200 : 1000;
-    
-    if (millis() - lastToggleTime >= interval) {
+    // Map 20.0°C (200) to 32.0°C (320)
+    // 20.0°C = 1500 ms (slow), 32.0°C = 80 ms (fast)
+    long interval = map((long)(currentTemp * 10.0f), 240, 290, 1500, 80);
+    interval = constrain(interval, 80, 1500);
+
+    if (millis() - lastToggleTime >= (unsigned long)interval) {
         lastToggleTime = millis();
         ledState = !ledState;
         digitalWrite(pin, ledState ? HIGH : LOW);
